@@ -18,8 +18,8 @@
         {
             try
             {
-                TryResetLockedTarget(_lockedCandidateTarget);
-                TryResetLockedTarget(_lockedTarget);
+                CheckLockedTarget(_lockedCandidateTarget);
+                CheckLockedTarget(_lockedTarget);
 
                 _isTargetSet = false;
 
@@ -42,7 +42,7 @@
             }
         }
 
-        private void TryResetLockedTarget(dynamic lockedTarget)
+        private void CheckLockedTarget(dynamic lockedTarget)
         {
             if (lockedTarget && !lockedTarget.CanBeTarget)
             {
