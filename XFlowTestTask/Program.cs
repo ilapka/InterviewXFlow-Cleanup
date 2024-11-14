@@ -18,15 +18,15 @@
         {
             try
             {
-                CheckLockedTarget(_lockedCandidateTarget);
-                CheckLockedTarget(_lockedTarget);
+                ValidateTargetOrReset(_lockedCandidateTarget);
+                ValidateTargetOrReset(_lockedTarget);
 
                 _isTargetSet = false;
 
                 // Sets _activeTarget field
                 TrySetActiveTargetFromQuantum(frame);
 
-                _isTargetSet = CanKeepTarget();
+                _isTargetSet = CanKeepCurrentTarget();
                 _previousTarget = _target;
 
                 if(_isTargetSet) return;
@@ -42,11 +42,11 @@
             }
         }
 
-        private void CheckLockedTarget(dynamic lockedTarget)
+        private void ValidateTargetOrReset(dynamic target)
         {
-            if (lockedTarget && !lockedTarget.CanBeTarget)
+            if (target && !target.CanBeTarget)
             {
-                lockedTarget = null;
+                target = null;
             }
         }
 
@@ -54,7 +54,7 @@
         /// If target exists and can be targeted, it should stay within Target Change Time since last target change
         /// </summary>
         /// <returns></returns>
-        private bool CanKeepTarget() => _target && _target.CanBeTarget && IsWithinTimeSinceLastTargetChange();
+        private bool CanKeepCurrentTarget() => _target && _target.CanBeTarget && IsWithinTimeSinceLastTargetChange();
         private bool IsWithinTimeSinceLastTargetChange() => Time.time - _previousTargetSetTime < TargetChangeTime;
 
         private bool TrySetTarget(dynamic fromTarget)
